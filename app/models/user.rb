@@ -27,6 +27,21 @@ class User < ApplicationRecord
   def following?(user)
     followings.exists?(id: user.id)
   end
+  
+
+  def self.looks(method, content)
+    if method == "perfect_match"
+      @user = User.where("name LIKE?", "#{content}")
+    elsif method == "forward_match"
+      @user = User.where("name LIKE?","#{content}%")
+    elsif method == "backward_match"
+      @user = User.where("name LIKE?","%#{content}")
+    elsif method == "partial_match"
+      @user = User.where("name LIKE?","%#{content}%")
+    else
+      @user = User.all
+    end
+  end
 
   
   
