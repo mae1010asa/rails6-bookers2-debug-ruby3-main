@@ -1,0 +1,3 @@
+// コメント一覧部分を更新
+document.getElementById("comments-area").innerHTML =
+  "<%= j(render 'book_comments/comments', book: @book) %>";

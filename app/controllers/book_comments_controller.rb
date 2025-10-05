@@ -1,18 +1,29 @@
 class BookCommentsController < ApplicationController
   def create
     @book = Book.find(params[:book_id])
-    comment = current_user.book_comments.new(book_comment_params)
-    comment.book_id = @book.id
-    if comment.save
-      redirect_to book_path(@book)
+    @book_comment = current_user.book_comments.new(book_comment_params)
+    @book_comment.book_id = @book.id
+    if @book_comment.save
+      # Ajax用のレスポンスを返す
+      respond_to do |format|
+        format.js   # create.js.erb を探す
+        format.html { redirect_to book_path(@book) }
+      end
     else
-      redirect_to book_path(@book), notice: "Error"
+      respond_to do |format|
+        format.html { redirect_to book_path(@book), alert: "Error" }
+      end
     end
   end
 
   def destroy
-    BookComment.find(params[:book_id]).destroy
-    redirect_to request.referer
+    @book_comment = BookComment.find(params[:id])
+    @book = @book_comment.book
+    @book_comment.destroy
+    respond_to do |format|
+      format.js   # destroy.js.erb を探す
+      format.html { redirect_to book_path(@book) }
+    end
   end
 
 

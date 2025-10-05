@@ -1,0 +1,6 @@
+// コメント一覧更新
+document.getElementById("comments-area").innerHTML =
+  "<%= j(render 'book_comments/comments', book: @book) %>";
+
+// フォームをリセット（コメント欄を空に）
+document.querySelector('#comment-form form').reset();
