@@ -21,7 +21,6 @@ class BooksController < ApplicationController
     end
   end
 
-
   def edit
     @book = Book.find(params[:id])
     unless @book.user.id == current_user.id
