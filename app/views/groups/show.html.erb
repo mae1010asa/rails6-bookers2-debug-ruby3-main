@@ -8,29 +8,48 @@
     </div>
     <div class='col-md-8 offset-md-1'>
       <h2>Group detail</h2>
-      <table class='table'>
-        <thead>
-          <tr>
-            <th></th>
-            <th>グループ名</th>
-            <th>紹介文</th>
-            <th>メンバー</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+        <table class='table'>
+          <thead>
             <tr>
-              <td><%= image_tag @group.get_group_image, size: '50x50' %></td>
-              <td><%= @group.name %></td>
-              <td><%= @group.introduction %></td>       
-              <td>
-                <% unless @group.owner_id == current_user.id %>
-                  <td><div class="btn btn-sm btn-success" %>Join this group</div></td>
-                <% end %>
-              </td>
-              <td></td>
+              <th></th>
+              <th>グループ名</th>
+              <th>紹介文</th>
+              <th></th>
             </tr>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+              <tr>
+                <td><%= image_tag @group.get_group_image, size: '50x50' %></td>
+                <td><%= @group.name %></td>
+                <td><%= @group.introduction %></td>       
+                <% if @group.joined_by?(current_user) %>
+                  <td>
+                    <%=link_to group_group_user_path(@group), method: :delete do %>
+                      <div class="btn btn-sm btn-danger" %>Leave this group</div>
+                    <% end %>
+                  </td>
+                  <% else %>
+                  <td>    
+                    <%=link_to group_group_user_path(@group), method: :post do %>
+                      <div class="btn btn-sm btn-success" %>Join this group</div>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+          </tbody>
+        </table>
+
+      <h4>Member</h4>
+        <table class='table'>
+          <tbody>
+            <% @group.group_users.each do |group_user| %>
+              <tr>
+                <td><%= group_user.user.name %></td>
+                <td>フォロー数: <%= group_user.user.followings.count %></td>
+                <td>フォロワー数: <%= group_user.user.followers.count %></td>        
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
     </div>
 
