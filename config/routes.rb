@@ -26,7 +26,10 @@ Rails.application.routes.draw do
 
   resources :groups, only: [:new,:index,:show,:edit,:create,:destroy,:update] do
     resource :group_user, only: [:create, :destroy]
+    resources :event_notices, only: [:new,:create]
   end
+
+  
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 

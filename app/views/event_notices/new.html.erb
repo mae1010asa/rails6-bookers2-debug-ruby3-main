@@ -1,0 +1,16 @@
+<div class="mx-auto w-50">
+  <h1>Event Mail</h1>
+  <%= form_with url: group_event_notices_path(@group), method: :post, local:true do |f| %>
+    <div class="form-group">
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control group_event_notice_name' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :body %>
+      <%= f.text_area :body, class: 'form-control group_event_notice_body' %>
+    </div>
+    <div class="form-group">
+      <%= f.submit '送信' %>
+    </div>
+  <% end %>
+</div>
